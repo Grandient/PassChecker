@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Grandient.github.io-react/static/css/main.59e613d3.chunk.css",
-    "main.js": "/Grandient.github.io-react/static/js/main.0a28ff09.chunk.js",
-    "main.js.map": "/Grandient.github.io-react/static/js/main.0a28ff09.chunk.js.map",
-    "runtime-main.js": "/Grandient.github.io-react/static/js/runtime-main.4b372169.js",
-    "runtime-main.js.map": "/Grandient.github.io-react/static/js/runtime-main.4b372169.js.map",
-    "static/js/2.7961d9d3.chunk.js": "/Grandient.github.io-react/static/js/2.7961d9d3.chunk.js",
-    "static/js/2.7961d9d3.chunk.js.map": "/Grandient.github.io-react/static/js/2.7961d9d3.chunk.js.map",
-    "index.html": "/Grandient.github.io-react/index.html",
-    "precache-manifest.f647a0728ca48909d3d71709f8c632d0.js": "/Grandient.github.io-react/precache-manifest.f647a0728ca48909d3d71709f8c632d0.js",
-    "service-worker.js": "/Grandient.github.io-react/service-worker.js",
-    "static/css/main.59e613d3.chunk.css.map": "/Grandient.github.io-react/static/css/main.59e613d3.chunk.css.map",
-    "static/js/2.7961d9d3.chunk.js.LICENSE.txt": "/Grandient.github.io-react/static/js/2.7961d9d3.chunk.js.LICENSE.txt"
+    "main.css": "/PassChecker/static/css/main.59e613d3.chunk.css",
+    "main.js": "/PassChecker/static/js/main.f1898ead.chunk.js",
+    "main.js.map": "/PassChecker/static/js/main.f1898ead.chunk.js.map",
+    "runtime-main.js": "/PassChecker/static/js/runtime-main.655a49f5.js",
+    "runtime-main.js.map": "/PassChecker/static/js/runtime-main.655a49f5.js.map",
+    "static/js/2.7961d9d3.chunk.js": "/PassChecker/static/js/2.7961d9d3.chunk.js",
+    "static/js/2.7961d9d3.chunk.js.map": "/PassChecker/static/js/2.7961d9d3.chunk.js.map",
+    "index.html": "/PassChecker/index.html",
+    "precache-manifest.8fa71d675d7501fb5139f4314a040c67.js": "/PassChecker/precache-manifest.8fa71d675d7501fb5139f4314a040c67.js",
+    "service-worker.js": "/PassChecker/service-worker.js",
+    "static/css/main.59e613d3.chunk.css.map": "/PassChecker/static/css/main.59e613d3.chunk.css.map",
+    "static/js/2.7961d9d3.chunk.js.LICENSE.txt": "/PassChecker/static/js/2.7961d9d3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.4b372169.js",
+    "static/js/runtime-main.655a49f5.js",
     "static/js/2.7961d9d3.chunk.js",
     "static/css/main.59e613d3.chunk.css",
-    "static/js/main.0a28ff09.chunk.js"
+    "static/js/main.f1898ead.chunk.js"
   ]
 }
