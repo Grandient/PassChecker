@@ -1,23 +1,22 @@
 {
   "files": {
-    "main.css": "/Grandient.github.io-react/static/css/main.d1b05096.chunk.css",
-    "main.js": "/Grandient.github.io-react/static/js/main.179be9a1.chunk.js",
-    "main.js.map": "/Grandient.github.io-react/static/js/main.179be9a1.chunk.js.map",
+    "main.css": "/Grandient.github.io-react/static/css/main.59e613d3.chunk.css",
+    "main.js": "/Grandient.github.io-react/static/js/main.0a28ff09.chunk.js",
+    "main.js.map": "/Grandient.github.io-react/static/js/main.0a28ff09.chunk.js.map",
     "runtime-main.js": "/Grandient.github.io-react/static/js/runtime-main.4b372169.js",
     "runtime-main.js.map": "/Grandient.github.io-react/static/js/runtime-main.4b372169.js.map",
-    "static/js/2.b6fabe4d.chunk.js": "/Grandient.github.io-react/static/js/2.b6fabe4d.chunk.js",
-    "static/js/2.b6fabe4d.chunk.js.map": "/Grandient.github.io-react/static/js/2.b6fabe4d.chunk.js.map",
+    "static/js/2.7961d9d3.chunk.js": "/Grandient.github.io-react/static/js/2.7961d9d3.chunk.js",
+    "static/js/2.7961d9d3.chunk.js.map": "/Grandient.github.io-react/static/js/2.7961d9d3.chunk.js.map",
     "index.html": "/Grandient.github.io-react/index.html",
-    "precache-manifest.408faed21c23311a58614a76400b4208.js": "/Grandient.github.io-react/precache-manifest.408faed21c23311a58614a76400b4208.js",
+    "precache-manifest.f647a0728ca48909d3d71709f8c632d0.js": "/Grandient.github.io-react/precache-manifest.f647a0728ca48909d3d71709f8c632d0.js",
     "service-worker.js": "/Grandient.github.io-react/service-worker.js",
-    "static/css/main.d1b05096.chunk.css.map": "/Grandient.github.io-react/static/css/main.d1b05096.chunk.css.map",
-    "static/js/2.b6fabe4d.chunk.js.LICENSE.txt": "/Grandient.github.io-react/static/js/2.b6fabe4d.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/Grandient.github.io-react/static/media/logo.5d5d9eef.svg"
+    "static/css/main.59e613d3.chunk.css.map": "/Grandient.github.io-react/static/css/main.59e613d3.chunk.css.map",
+    "static/js/2.7961d9d3.chunk.js.LICENSE.txt": "/Grandient.github.io-react/static/js/2.7961d9d3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4b372169.js",
-    "static/js/2.b6fabe4d.chunk.js",
-    "static/css/main.d1b05096.chunk.css",
-    "static/js/main.179be9a1.chunk.js"
+    "static/js/2.7961d9d3.chunk.js",
+    "static/css/main.59e613d3.chunk.css",
+    "static/js/main.0a28ff09.chunk.js"
   ]
 }

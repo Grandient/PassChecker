@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/Grandient.github.io-react/precache-manifest.408faed21c23311a58614a76400b4208.js"
+  "/Grandient.github.io-react/precache-manifest.f647a0728ca48909d3d71709f8c632d0.js"
 );
 
 self.addEventListener('message', (event) => {
