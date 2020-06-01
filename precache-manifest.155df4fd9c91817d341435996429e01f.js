@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "600b12b5929462933d110afae8ebafcb",
+    "revision": "9cea97c39572a08779b793cf85262f8a",
     "url": "/PassChecker/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/PassChecker/static/css/2.ace36aee.chunk.css"
   },
   {
-    "revision": "6d2d63b38e42ec11cb2a",
-    "url": "/PassChecker/static/css/main.44d1ddd5.chunk.css"
+    "revision": "5b31a4c7e73804a3b458",
+    "url": "/PassChecker/static/css/main.65731ce0.chunk.css"
   },
   {
     "revision": "fc39839a3bd9b62c46e4",
@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/PassChecker/static/js/2.7ba4efbc.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6d2d63b38e42ec11cb2a",
+    "revision": "5b31a4c7e73804a3b458",
     "url": "/PassChecker/static/js/main.3aebf22d.chunk.js"
   },
   {
