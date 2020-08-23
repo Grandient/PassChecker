@@ -9,6 +9,7 @@
   margin-top: 10vh;
   font-size: 3vh;
   color: white;
+  word-wrap: break-word;
 }
 
 .dark {
@@ -32,68 +33,126 @@
   font-size: 10vh;
   padding: 0vh;
   background: rgba(128, 128, 128, 0.1);
-  width: 50vw;
+  width: 80vw;
 }
 
 @media (max-width: 1024px) {
-  .password {
+  #password {
     font-size: 7.5vh;
   }
 }
 
 @media (max-width: 768px) {
-  .password {
+  #password {
     font-size: 3.5vh;
+  }
+
+  .guess {
+    width: 90vw;
+  }
+  
+  .score {
+    width: 90vw;
+  }
+  
+  .warning {
+    width: 90vw; 
+  }
+  
+  .issue {
+    width: 90vw;
+  }
+  
+  .time {
+    width: 90vw;
+  }
+  
+  .pattern {
+    width: 90vw;
+  } 
+
+  .title {
+    font-size: 2.5vh;
   }
 }
 
 @media (max-width: 425px) {
-  .password {
+  #password {
     font-size: 2vh;
   }
+
+  .title {
+    font-size: 2vh;
+  }
+
+  .guess {
+    width: 100vw;
+  }
+  
+  .score {
+    width: 100vw;
+  }
+  
+  .warning {
+    width: 100vw; 
+  }
+  
+  .issue {
+    width: 100vw;
+  }
+  
+  .time {
+    width: 100vw;
+  }
+  
+  .pattern {
+    width: 100vw;
+  } 
+
 }
 
 
 @media (max-width:375px) {
-  .password {
+  #password {
     font-size: 1.5vh;
   }
 }
 
 .guess {
   display: flex;
-  width: 50vw;
+  width: 80vw;
   margin: auto;
+  flex-grow: 2;
 }
 
 .score {
   display: flex;
-  width: 50vw;
+  width: 80vw;
   margin: auto;
   background: rgba(128, 128, 128, 0.1) !important;
 }
 
 .warning {
   display: flex;
-  width: 50vw; 
+  width: 80vw; 
   margin: auto;
 }
 
 .issue {
   display: flex;
-  width: 50vw;
+  width: 80vw;
   margin: auto;
 }
 
 .time {
   display: flex;
-  width: 50vw;
+  width: 80vw;
   margin: auto;
 }
 
 .pattern {
   display: flex;
-  width: 50vw;
+  width: 80vw;
   margin: auto;
   flex-direction: column;
 }

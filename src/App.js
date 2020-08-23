@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import zxcvbn from 'zxcvbn';
 import './App.css';
 import { Input, Message, Progress } from 'semantic-ui-react';
+import {FaRegLightbulb} from 'react-icons/fa';
 import 'semantic-ui-css/semantic.min.css';
 import styled from 'styled-components';
 
@@ -78,6 +79,10 @@ export const GuessMessage = styled(Message)`
   margin: 0 auto !important;
   margin-bottom: 2vh !important;
   background: ${props => props.lightMode ? props.color : 'rgba(255, 255, 255, 0.05) !important'};
+  @media (max-width: 425px) {
+    width: auto;
+    margin-right: 5vw !important;
+  }
 `;
 
 export const OptionMessage = styled(Message)`
@@ -88,6 +93,10 @@ export const OptionMessage = styled(Message)`
   background: ${props => props.lightMode ? props.color : 'rgba(255, 255, 255, 0.05) !important'};
   color: ${props => props.color == "white" ? "black" : "auto"};
   cursor: pointer;
+  @media (max-width: 425px) {
+    width: auto;
+    margin-right: 5vw !important;
+  }
 `;
 
 function Guess(props){
@@ -107,7 +116,7 @@ function Options(props){
   return (
     <div style={{display:"flex"}}>
       <OptionMessage lightMode={props.lightMode} color="teal" className="info">Info</OptionMessage>
-      <OptionMessage lightMode={props.lightMode} onClick={() => props.hook(!props.lightMode)} className="info" style={style}>Lights On!</OptionMessage>
+      <OptionMessage lightMode={props.lightMode} onClick={() => props.hook(!props.lightMode)} className="info" style={style}><FaRegLightbulb/></OptionMessage>
     </div>
   )
 }
@@ -149,9 +158,12 @@ export const AtlasMessage = styled(Message)`
   @media (max-width: 816px) {
     margin: 0 !important;
     padding: 0.5em !important;
+    width: 15vw;
+    height: 3vh;
   }
 
   @media (max-width: 676px) {
+    width: 18vw;
     margin: 0 !important;
     padding: 0em !important;
   }
@@ -169,11 +181,11 @@ function Atlas(props){
   }
   return (
     <div className="atlas">
-      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Warning")} color="red" >Warning</AtlasMessage>
-      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Suggestion")} color="yellow">Suggestions</AtlasMessage>
-      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("")} style={style}>All</AtlasMessage>
-      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Pattern")} color="green">Patterns</AtlasMessage>
-      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Time")} color="blue">Times</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} className="atlas-item" onClick={() => props.hook("Warning")} color="red" >Warning</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} className="atlas-item" onClick={() => props.hook("Suggestion")} color="yellow">Tips</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} className="atlas-item" onClick={() => props.hook("")} style={style}>All</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} className="atlas-item" onClick={() => props.hook("Pattern")} color="green">Patterns</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} className="atlas-item" onClick={() => props.hook("Time")} color="blue">Times</AtlasMessage>
     </div>
   )
 }
