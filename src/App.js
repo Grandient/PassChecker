@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState ,useEffect ,useRef } from 'react';
 import zxcvbn from 'zxcvbn';
 import './App.css';
-import { Input, Message, Progress } from 'semantic-ui-react';
+import { Input, Message, Progress, Modal, Header} from 'semantic-ui-react';
 import {FaRegLightbulb} from 'react-icons/fa';
 import 'semantic-ui-css/semantic.min.css';
 import styled from 'styled-components';
-
 
 function App() {
   let [password, setPassword] = useState("")
@@ -13,8 +12,8 @@ function App() {
   let [selected, setSelected] = useState("");
   let [showInfo, setShowInfo] = useState(false);
   let issues = zxcvbn(password);
-  let bodyStyle = null;
   let textStyle = null;
+
 
   if(lightMode){
     textStyle = {color: "black"}
@@ -28,14 +27,14 @@ function App() {
     <div className="center">
       <div style={textStyle} className="title">HOW STRONG IS YOUR PASSWORD?</div>
       <Password lightMode={lightMode} style={textStyle} id="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="ENTER PASSWORD"/>
-      <Score percent={issues.score}/>
-      <Guess guesses={issues.guesses} hook={setLightMode} lightMode={lightMode}/>
+      <Score percent={issues.score} lightMode={lightMode}/>
+      <Guess guesses={issues.guesses} hookLight={setLightMode} info={showInfo} hookInfo={setShowInfo} lightMode={lightMode}/>
       <Atlas lightMode={lightMode} hook={setSelected}/>
       <ListMessage lightMode={lightMode}>
+        {issues.feedback.warning != "" && (selected == "" || selected == "Warning") ? <Warning lightMode={lightMode} body={issues.feedback.warning}/> : null}
         {issues.feedback.suggestions != "" && (selected == "" || selected == "Suggestion") ? issues.feedback.suggestions.map((issue, key) => (
           <Suggestion lightMode={lightMode} key={key} body={issue}/>
         )) : null}
-        {issues.feedback.warning != "" && (selected == "" || selected == "Warning") ? <Warning lightMode={lightMode} body={issues.feedback.warning}/> : null}
         {(selected == "" || selected == "Time") ? 
           <Time lightMode={lightMode} verySlow={issues.crack_times_display.online_throttling_100_per_hour} 
               slow={issues.crack_times_display.online_no_throttling_10_per_second} 
@@ -60,9 +59,17 @@ export const Password = styled(Input)`
   }
 `;
 
+export const ElemScore = styled(Progress)`
+  .label {
+    color: ${props => props.lightMode ? "black !important" : "white !important"};
+    margin-top: -2.5vh !important;
+  }
+`;
 function Score(props){
   return (
-    <Progress className="score" percent={((props.percent+1)/5)*100} indicating/>
+    <ElemScore lightMode={props.lightMode} className="score" percent={((props.percent+1)/5)*100} indicating>
+        {((props.percent+1)/5) * 5} / 5
+    </ElemScore>
   )
 }
 
@@ -81,7 +88,7 @@ export const GuessMessage = styled(Message)`
   background: ${props => props.lightMode ? props.color : 'rgba(255, 255, 255, 0.05) !important'};
   @media (max-width: 425px) {
     width: auto;
-    margin-right: 5vw !important;
+    margin-right: 0.5vw !important;
   }
 `;
 
@@ -93,9 +100,12 @@ export const OptionMessage = styled(Message)`
   background: ${props => props.lightMode ? props.color : 'rgba(255, 255, 255, 0.05) !important'};
   color: ${props => props.color == "white" ? "black" : "auto"};
   cursor: pointer;
+  @media (max-width: 768px) {
+    width: 14vw;
+  }
   @media (max-width: 425px) {
     width: auto;
-    margin-right: 5vw !important;
+    margin-right: 0.5vw !important;
   }
 `;
 
@@ -103,10 +113,22 @@ function Guess(props){
   return (
     <div className="options">
       <GuessMessage lightMode={props.lightMode} color="purple">FOUND IN {props.guesses} GUESSES!</GuessMessage>
-      <Options lightMode={props.lightMode} hook={props.hook}/>
+      <Options lightMode={props.lightMode} info={props.info} hookLight={props.hookLight} hookInfo={props.hookInfo}/>
     </div>
   )
 }
+
+
+export const MHeader = styled(Header)`
+  background: rgba(0, 0, 0, 0.9) !important;
+  border-bottom: 1px solid white !important;
+  color: white !important;
+`
+
+export const MContent = styled(Modal.Content)`
+  background: rgba(0, 0, 0, 0.9) !important;
+  color: white !important;
+`
 
 function Options(props){
     let style = null;
@@ -115,19 +137,78 @@ function Options(props){
   }
   return (
     <div style={{display:"flex"}}>
-      <OptionMessage lightMode={props.lightMode} color="teal" className="info">Info</OptionMessage>
-      <OptionMessage lightMode={props.lightMode} onClick={() => props.hook(!props.lightMode)} className="info" style={style}><FaRegLightbulb/></OptionMessage>
+      <Info info={props.info} hook={props.hookInfo} lightMode={props.lightMode}/>
+      <OptionMessage lightMode={props.lightMode} onClick={() => props.hookLight(!props.lightMode)} className="info" style={style}><FaRegLightbulb/></OptionMessage>
     </div>
+  )
+}
+
+function Info(props) {
+  let style = null;
+  if(!props.lightMode){
+    style={boxShadow: "0 0 0 1px white inset, 0 0 0 0 transparent", color: "white", width: "100%"}
+  }
+  return (
+    <Modal
+      closeIcon
+      open={props.info}
+      trigger={<OptionMessage lightMode={props.lightMode} color="teal" className="info">Info</OptionMessage>}
+      onClose={() => props.hook(false)}
+      onOpen={() => props.hook(true)}
+    >
+      <MHeader content='Information' />
+      <MContent>
+        Welcome! This is StrongPass Password Strength Estimation.
+        <br/> 
+        This info box gives more information regarding each of the four categories as well as some various other tips.  
+        <br/> 
+        <SuggestionMessage style={style} lightMode={props.lightMode} color="white">
+          1 Too guessable: risky password. (guesses less than 10^3)
+          <br/>
+          2 Very guessable: protection from throttled online attacks. (guesses less than 10^6)
+          <br/>
+          3 Somewhat guessable: protection from unthrottled online attacks. (guesses less than 10^8)
+          <br/>
+          4 Safely unguessable: moderate protection from offline slow-hash scenario. (guesses less than 10^10)
+          <br/>
+          5 Very unguessable: strong protection from offline slow-hash scenario. (guesses greater than 10^10)
+        </SuggestionMessage>
+        <SuggestionMessage style={{width: "100%"}} lightMode={props.lightMode} color="red" className="warning">
+            Explainations of the errors in a particular password.  
+        </SuggestionMessage>
+        <SuggestionMessage style={{width: "100%"}} lightMode={props.lightMode} color="yellow" className="issue">
+            A list of suggestions to help choose a less guessable password.
+        </SuggestionMessage>
+        <SuggestionMessage style={{width: "100%"}} lightMode={props.lightMode} color="blue" className="time">
+            Very Slow: Online attack on a service that ratelimits password auth attempts.
+            <br/>
+            Slow: Online attack on a service that doesn't ratelimit, or where an attacker has outsmarted ratelimiting.
+            <br/>
+            Fast: Offline attack that assumes multiple attackers, proper user-unique salting, and a slow hash function. (bcrypt, scrypt, PBKDF2)
+            <br/>
+            Very Fast: Offline attack with user-unique salting but a fast hash function. (SHA-1, SHA-256 or MD5).
+        </SuggestionMessage>
+        <SuggestionMessage style={{width: "100%"}} lightMode={props.lightMode} color="green" className="pattern">
+            Bruteforce: Token is found by doing a bruteforce search on all possible character combinations.
+            <br/>
+            Sequence: Token is found by searching common sequences.
+            <br/>
+            Dictionary: Token is found by searching a dictionary.
+            <br/>
+            Repeated: Token is found by looking at a previous part of the whole password.
+        </SuggestionMessage>
+      </MContent>
+    </Modal>
   )
 }
 
 function Time(props){
   return (
     <div className="times">
-      <ListMessage lightMode={props.lightMode} color="blue" className="time">Very Slow: {props.verySlow} (100 Attempts per hour)</ListMessage>
-      <ListMessage lightMode={props.lightMode} color="blue" className="time">Slow: {props.slow} (10 Attempts per second)</ListMessage>
-      <ListMessage lightMode={props.lightMode} color="blue" className="time">Fast: {props.fast} (1000 Attempts per second)</ListMessage>
-      <ListMessage lightMode={props.lightMode} color="blue" className="time">Very Fast: {props.veryFast} (1 Billion Attempts per second)</ListMessage>
+      <SuggestionMessage lightMode={props.lightMode} color="blue" className="time">Very Slow: {props.verySlow} (100 Attempts per hour)</SuggestionMessage>
+      <SuggestionMessage lightMode={props.lightMode} color="blue" className="time">Slow: {props.slow} (10 Attempts per second)</SuggestionMessage>
+      <SuggestionMessage lightMode={props.lightMode} color="blue" className="time">Fast: {props.fast} (1000 Attempts per second)</SuggestionMessage>
+      <SuggestionMessage lightMode={props.lightMode} color="blue" className="time">Very Fast: {props.veryFast} (1 Billion Attempts per second)</SuggestionMessage>
     </div>
   )
 }
