@@ -10,35 +10,54 @@ function App() {
   let [password, setPassword] = useState("")
   let [lightMode, setLightMode] = useState(false);
   let [selected, setSelected] = useState("");
+  let [showInfo, setShowInfo] = useState(false);
   let issues = zxcvbn(password);
-  console.log(issues)
+  let bodyStyle = null;
+  let textStyle = null;
+
+  if(lightMode){
+    textStyle = {color: "black"}
+    addBodyClass("light")()
+  } else {
+    textStyle = {color: "white"}
+    addBodyClass("dark")()
+  }
+
   return (
     <div className="center">
-      <div className="title">HOW STRONG IS YOUR PASSWORD?</div>
-      <Input id="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="ENTER PASSWORD"/>
+      <div style={textStyle} className="title">HOW STRONG IS YOUR PASSWORD?</div>
+      <Password lightMode={lightMode} style={textStyle} id="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="ENTER PASSWORD"/>
       <Score percent={issues.score}/>
-      <Guess guesses={issues.guesses}/>
-      <Atlas hook={setSelected}/>
-      {issues.feedback.suggestions != "" && (selected == "" || selected == "Suggestion") ? issues.feedback.suggestions.map((issue, key) => (
-        <Suggestion key={key} body={issue}/>
-      )) : null}
-      {issues.feedback.warning != "" && (selected == "" || selected == "Warning") ? <Warning body={issues.feedback.warning}/> : null}
-      {(selected == "" || selected == "Time") ? 
-        <Time verySlow={issues.crack_times_display.online_throttling_100_per_hour} 
-            slow={issues.crack_times_display.online_no_throttling_10_per_second} 
-            fast={issues.crack_times_display.offline_slow_hashing_1e4_per_second}
-            veryFast={issues.crack_times_display.offline_fast_hashing_1e10_per_second}/> 
-        : null}
-      {(selected == "" || selected == "Pattern") ?
-        <div>
-          {issues.sequence.map((pattern, key) => (
-            <Pattern pattern={pattern} key={key}/>
-          ))} 
-        </div> 
-        : null}
+      <Guess guesses={issues.guesses} hook={setLightMode} lightMode={lightMode}/>
+      <Atlas lightMode={lightMode} hook={setSelected}/>
+      <ListMessage lightMode={lightMode}>
+        {issues.feedback.suggestions != "" && (selected == "" || selected == "Suggestion") ? issues.feedback.suggestions.map((issue, key) => (
+          <Suggestion lightMode={lightMode} key={key} body={issue}/>
+        )) : null}
+        {issues.feedback.warning != "" && (selected == "" || selected == "Warning") ? <Warning lightMode={lightMode} body={issues.feedback.warning}/> : null}
+        {(selected == "" || selected == "Time") ? 
+          <Time lightMode={lightMode} verySlow={issues.crack_times_display.online_throttling_100_per_hour} 
+              slow={issues.crack_times_display.online_no_throttling_10_per_second} 
+              fast={issues.crack_times_display.offline_slow_hashing_1e4_per_second}
+              veryFast={issues.crack_times_display.offline_fast_hashing_1e10_per_second}/> 
+          : null}
+        {(selected == "" || selected == "Pattern") ?
+          <div className="times">
+            {issues.sequence.map((pattern, key) => (
+              <Pattern lightMode={lightMode} pattern={pattern} key={key}/>
+            ))} 
+          </div> 
+          : null}
+      </ListMessage>
     </div>
   );
 }
+
+export const Password = styled(Input)`
+  input {
+    color: ${props => props.lightMode ? "black !important" : "white !important"};
+  }
+`;
 
 function Score(props){
   return (
@@ -46,49 +65,76 @@ function Score(props){
   )
 }
 
+export function addBodyClass(className) {
+  return () => useEffect(() => {
+    document.body.classList.add(className);
+    return () => { document.body.classList.remove(className); }
+  });
+}
+
 export const GuessMessage = styled(Message)`
   text-align: center;
   width: 20vw;
   margin: 0 auto !important;
   margin-bottom: 2vh !important;
-  background: rgba(255, 255, 255, 0.05) !important;
-`
+  background: ${props => props.lightMode ? props.color : 'rgba(255, 255, 255, 0.05) !important'};
+`;
+
+export const OptionMessage = styled(Message)`
+  text-align: center;
+  width: 7.5vw;
+  margin: auto 0.2vw !important;
+  margin-bottom: 2vh !important;
+  background: ${props => props.lightMode ? props.color : 'rgba(255, 255, 255, 0.05) !important'};
+  color: ${props => props.color == "white" ? "black" : "auto"};
+  cursor: pointer;
+`;
 
 function Guess(props){
   return (
-      <GuessMessage color="purple" className="guess">FOUND IN {props.guesses} GUESSES!</GuessMessage>
+    <div className="options">
+      <GuessMessage lightMode={props.lightMode} color="purple">FOUND IN {props.guesses} GUESSES!</GuessMessage>
+      <Options lightMode={props.lightMode} hook={props.hook}/>
+    </div>
   )
 }
 
 function Options(props){
+    let style = null;
+  if(!props.lightMode){
+    style={boxShadow: "0 0 0 1px white inset, 0 0 0 0 transparent", color: "white"}
+  }
   return (
-    <div></div>
+    <div style={{display:"flex"}}>
+      <OptionMessage lightMode={props.lightMode} color="teal" className="info">Info</OptionMessage>
+      <OptionMessage lightMode={props.lightMode} onClick={() => props.hook(!props.lightMode)} className="info" style={style}>Lights On!</OptionMessage>
+    </div>
   )
 }
 
 function Time(props){
   return (
-    <div>
-      <ListMessage color="blue" className="time">Very Slow: {props.verySlow} (100 Attempts per hour)</ListMessage>
-      <ListMessage color="blue" className="time">Slow: {props.slow} (10 Attempts per second)</ListMessage>
-      <ListMessage color="blue" className="time">Fast: {props.fast} (1000 Attempts per second)</ListMessage>
-      <ListMessage color="blue" className="time">Very Fast: {props.veryFast} (1 Billion Attempts per second)</ListMessage>
+    <div className="times">
+      <ListMessage lightMode={props.lightMode} color="blue" className="time">Very Slow: {props.verySlow} (100 Attempts per hour)</ListMessage>
+      <ListMessage lightMode={props.lightMode} color="blue" className="time">Slow: {props.slow} (10 Attempts per second)</ListMessage>
+      <ListMessage lightMode={props.lightMode} color="blue" className="time">Fast: {props.fast} (1000 Attempts per second)</ListMessage>
+      <ListMessage lightMode={props.lightMode} color="blue" className="time">Very Fast: {props.veryFast} (1 Billion Attempts per second)</ListMessage>
     </div>
   )
 }
 
 function Warning(props){
   return (
-    <ListMessage color="red" className="warning">
+    <SuggestionMessage lightMode={props.lightMode} color="red" className="warning">
       {props.body}
-    </ListMessage>
+    </SuggestionMessage>
   )
 }
 
 export const AtlasMessage = styled(Message)`
   width: 6vw;
   margin: 0 2vw !important;  
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: ${props => props.lightMode ? null : 'rgba(255, 255, 255, 0.05) !important'};
   cursor: pointer;
   @media (max-width: 1242px) {
     margin: 0 1vw !important;
@@ -113,29 +159,33 @@ export const AtlasMessage = styled(Message)`
 
 export const ListMessage = styled(Message)`
   margin: 2vh auto !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: ${props => props.lightMode ? 'white' : 'rgba(255, 255, 255, 0.05) !important'};
 `;
 
 function Atlas(props){
+  let style = null;
+  if(!props.lightMode){
+    style={boxShadow: "0 0 0 1px white inset, 0 0 0 0 transparent", color: "white"}
+  }
   return (
     <div className="atlas">
-      <AtlasMessage onClick={() => props.hook("Warning")} color="red" >Warning</AtlasMessage>
-      <AtlasMessage onClick={() => props.hook("Suggestion")} color="yellow">Suggestions</AtlasMessage>
-      <AtlasMessage onClick={() => props.hook("")} style={{boxShadow: "0 0 0 1px white inset, 0 0 0 0 transparent", color: "white"}}>All</AtlasMessage>
-      <AtlasMessage onClick={() => props.hook("Pattern")} color="green">Patterns</AtlasMessage>
-      <AtlasMessage onClick={() => props.hook("Time")} color="blue">Times</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Warning")} color="red" >Warning</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Suggestion")} color="yellow">Suggestions</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("")} style={style}>All</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Pattern")} color="green">Patterns</AtlasMessage>
+      <AtlasMessage lightMode={props.lightMode} onClick={() => props.hook("Time")} color="blue">Times</AtlasMessage>
     </div>
   )
 }
 
 export const SuggestionMessage = styled(Message)`
   margin: 1vh auto !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: ${props => props.lightMode ? 'white' : 'rgba(255, 255, 255, 0.05) !important'};
 `
 
 function Pattern(props){
   return (
-    <ListMessage color="green" className="pattern">
+    <ListMessage lightMode={props.lightMode} color="green" className="pattern">
       <div>TOKEN: {props.pattern.token}</div>
       <div>PATTERN: {props.pattern.pattern}</div>
       {props.pattern.pattern == "dictionary" ? <div>DICTIONARY NAME: {props.pattern.pattern}</div> : null}
@@ -145,7 +195,7 @@ function Pattern(props){
 
 function Suggestion(props){
   return (
-    <SuggestionMessage color="yellow" className="issue">
+    <SuggestionMessage lightMode={props.lightMode} color="yellow" className="issue">
       {props.body != undefined ? props.body : null}
     </SuggestionMessage>
   )

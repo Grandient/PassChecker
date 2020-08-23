@@ -5,14 +5,23 @@
   text-align: center;
 }
 
-body {
-  background: black !important;
-}
-
 .title {
   margin-top: 10vh;
   font-size: 3vh;
   color: white;
+}
+
+.dark {
+  background-color: black !important;
+}
+
+.light {
+  background-color: white !important;
+}
+
+.times {
+  margin-top: -1vh;
+  margin-bottom: -1vh;
 }
 
 #password {
@@ -22,34 +31,31 @@ body {
   text-align: center;
   font-size: 10vh;
   padding: 0vh;
-  color: white;
   background: rgba(128, 128, 128, 0.1);
   width: 50vw;
 }
 
-
-
 @media (max-width: 1024px) {
-  #password {
+  .password {
     font-size: 7.5vh;
   }
 }
 
 @media (max-width: 768px) {
-  #password {
+  .password {
     font-size: 3.5vh;
   }
 }
 
 @media (max-width: 425px) {
-  #password {
+  .password {
     font-size: 2vh;
   }
 }
 
 
 @media (max-width:375px) {
-  #password {
+  .password {
     font-size: 1.5vh;
   }
 }
@@ -92,8 +98,6 @@ body {
   flex-direction: column;
 }
 
-
-
 .ui.progress {
   margin: 2vh auto !important;
 }
@@ -121,6 +125,17 @@ body {
   line-height: inherit;
   background: black;
   
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  width: 50vw;
+  margin: auto;
+}
+
+.info {
+  margin: 1vw 0;
 }
 
 .atlas {
